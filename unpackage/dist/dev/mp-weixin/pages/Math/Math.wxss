@@ -1,0 +1,25 @@
+
+page {
+	background-color: #9DB6BA;
+}
+.cleck {
+	margin-top: 0%;
+	display: block;
+	float: right;
+	width: 30%;
+}
+.cleck1 {
+	margin-left: 80%;
+	display: block;
+	float: right;
+	width: 30%;
+}
+.text {
+	color: aliceblue;
+	margin: 0 auto;
+	font-size: 45rpx;
+	position: absolute;
+	left: 25%;
+	margin-top: 550rpx;
+}
+

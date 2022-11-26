@@ -1,0 +1,24 @@
+
+.box1 {
+	font-size: 40rpx;
+	width: 100%;
+	height: 300rpx;
+	background-color: antiquewhite;
+}
+.header {
+	border-style: ridge;
+	width: 160rpx;
+	height: 160rpx;
+	margin: auto;
+	display: block;
+	justify-content: center;
+	align-items: center;
+}
+.headtext {
+	margin-top: 20rpx;
+	text-align: center;
+}
+.headinput {
+	text-align: center;
+}
+

@@ -1,0 +1,22 @@
+
+checkbox{
+	position: absolute;
+	right: 15%;
+}
+.head{
+	margin-left: 10%;
+	margin-top: 5%;
+}
+.homework001{
+	margin-top: 5%;
+}
+.video{
+	position: absolute;
+	width: 90%;
+	height: 70%;
+	/* background-color: pink; */
+	left: 5%;
+	border: 1px solid black;
+	margin-top: 5%;
+}
+

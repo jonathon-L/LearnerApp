@@ -1,0 +1,17 @@
+
+page {
+	background-color: #CFD7DF;
+}
+.size {
+	margin: auto;
+	display: block;
+	justify-content: center;
+	align-items: center;
+	width: 75%;
+}
+.boxx {
+	margin-top: 150rpx;
+	margin-bottom: 80rpx;
+	border-style: ridge;
+}
+

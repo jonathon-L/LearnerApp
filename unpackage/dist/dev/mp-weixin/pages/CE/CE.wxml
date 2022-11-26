@@ -1,0 +1,1 @@
+<view><navigator open-type="redirect" url="/pages/"><button class="cleck" type="default">书写展示</button></navigator><view class="text"><批改或搜题结果></view></view>

@@ -1,0 +1,101 @@
+{
+	"pages": [ //pages数组中第一项表示应用启动页，参考：https://uniapp.dcloud.io/collocation/pages
+		{
+			"path": "pages/login/login",
+			"style": {
+				"navigationBarBackgroundColor": "#fff",
+				"navigationBarTitleText": "登录",
+				"navigationBarTextStyle": "black"
+			}
+		},
+		{
+			"path": "pages/regist/regist",
+			"style": {
+				"navigationBarBackgroundColor": "#fff",
+				"navigationBarTitleText": "注册 ",
+				"navigationBarTextStyle": "black"
+			}
+		},
+		{
+			"path": "pages/study/study"
+		},
+		{
+			"path": "pages/remind/remind"
+		},
+		{
+			"path": "pages/inspect/inspect"
+		},
+		{
+			"path": "pages/mine/mine"
+		},
+		{
+			"path": "pages/CE/CE"
+		},
+		{
+			"path": "pages/EN/EN"
+		},
+		{
+			"path": "pages/Math/Math"
+		},
+		{
+			"path": "pages/light/light"
+		},
+	    
+        {
+            "path" : "pages/study/pronunciation/prounce",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "发音矫正",
+                "enablePullDownRefresh": false
+            }
+            
+        },
+		{
+            "path" : "pages/study/homework/homework",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "作业助手",
+                "enablePullDownRefresh": false
+            }
+            
+        }
+        
+    ],
+	"globalStyle": {
+		"navigationBarTextStyle": "white",
+		"navigationBarTitleText": "学习机器人助手",
+		"navigationBarBackgroundColor": "#C37B5C",
+		"backgroundColor": "#CFD7DF"
+		
+		
+	},
+	"tabBar": {
+		"position": "bottom",
+		"list":[
+			{
+				"text": "学习",
+				"pagePath": "pages/study/study",
+				"iconPath": "static/icon_tabbar/study/s.png",
+				"selectedIconPath": "static/icon_tabbar/study/s1.png"
+			},
+			{
+				"text": "作业提醒",
+				"pagePath": "pages/remind/remind",
+				"iconPath": "static/icon_tabbar/remind/r.png",
+				"selectedIconPath": "static/icon_tabbar/remind/r1.png"
+			},
+			{
+				"text": "智能检查",
+				"pagePath": "pages/inspect/inspect",
+				"iconPath": "static/icon_tabbar/inspect/i.png",
+				"selectedIconPath": "static/icon_tabbar/inspect/i1.png"
+			},
+			{
+				"text": "我的",
+				"pagePath": "pages/mine/mine",
+				"iconPath": "static/icon_tabbar/mine/m.png",
+				"selectedIconPath": "static/icon_tabbar/mine/m1.png"
+			}
+		]
+	}
+}

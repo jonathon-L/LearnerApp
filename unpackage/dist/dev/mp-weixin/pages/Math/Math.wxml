@@ -1,0 +1,1 @@
+<view><button class="cleck" type="default">书写展示</button><button class="cleck1" type="default">以图搜题</button><view class="text"><批改或搜题结果></view></view>

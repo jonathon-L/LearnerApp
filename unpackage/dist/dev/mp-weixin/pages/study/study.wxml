@@ -1,0 +1,1 @@
+<view class="btn"><button type="default" plain="true" data-event-opts="{{[['tap',[['pronunciation',['$event']]]]]}}" bindtap="__e">发音矫正</button><button type="default" plain="true" data-event-opts="{{[['tap',[['homework',['$event']]]]]}}" bindtap="__e">作业助手</button></view>

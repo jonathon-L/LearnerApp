@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<title>作业助手</title>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	</head>
+	<body class='body'>
+		<div class="mui-content">
+			<!-- 没有画面时的遮罩 -->
+			<!-- <video id="webcam" loop preload> </video> -->
+			<div>
+				<div>
+					<span>光线检测：</span>
+					<input type="checkbox" id="ray" />
+				</div>
+
+				<div>
+					<span>阅读书写就姿态检测：</span>
+					<input type="checkbox" id="attitude" />
+				</div>
+			</div>
+
+
+
+			<div style=" display: none;">
+				<video id="video" style=" margin: 0 auto;"></video>
+				<canvas id='canvas' width="370" height="500"
+					style="border: 0px solid red;margin: auto;"></canvas>
+			</div>
+			
+			<img id="receiver" style="width: 370px; height: 500px" />
+			
+		</div>
+	</body>
+	<script type="text/javascript">
+		var video, canvas, vendorUrl, interval, videoHeight, videoWidth;
+		
+		
+
+		// 摄像头初始化
+		function initVideo() {
+			video = document.getElementById("video");
+			videoHeight = 370
+			videoWidth = 500
+			setTimeout(() => {
+				if (
+					navigator.mediaDevices.getUserMedia ||
+					navigator.getUserMedia ||
+					navigator.webkitGetUserMedia ||
+					navigator.mozGetUserMedia
+				) {
+					//调用用户媒体设备, 访问摄像头
+					getUserMedia({
+							video: {
+								width: {
+									ideal: videoWidth,
+									max: videoWidth
+								},
+								height: {
+									ideal: videoHeight,
+									max: videoHeight
+								},
+								facingMode: 'user', //前置摄像头
+								// facingMode: {
+								// 	exact: "environment"
+								// }, //后置摄像头
+								frameRate: {
+									ideal: 30,
+									min: 10
+								}
+							}
+						},
+						videoSuccess,
+						videoError
+					);
+				} else {}
+			}, 300);
+		}
+		// 获取用户设备
+		function getUserMedia(constraints, success, error) {
+			if (navigator.mediaDevices.getUserMedia) {
+				//最新的标准API
+				navigator.mediaDevices
+					.getUserMedia(constraints)
+					.then(success)
+					.catch(error);
+			} else if (navigator.webkitGetUserMedia) {
+				//webkit核心浏览器
+				navigator.webkitGetUserMedia(constraints, success, error);
+			} else if (navigator.mozGetUserMedia) {
+				//firfox浏览器
+				navigator.mozGetUserMedia(constraints, success, error);
+			} else if (navigator.getUserMedia) {
+				//旧版API
+				navigator.getUserMedia(constraints, success, error);
+			}
+		}
+		// 开始有画面
+		function videoSuccess(stream) {
+			//this.mediaStreamTrack = stream;
+			console.log("=====stream")
+			video.srcObject = stream;
+			video.play();
+			//$("#max-bg").css('background-color', 'rgba(0,0,0,0)')
+			// 这里处理我的的东西
+		}
+
+		function videoError(error) {
+			console.log('摄像头获取错误')
+			alert('摄像头获取错误')
+		}
+		
+		canvas = document.getElementById('canvas');
+		// 单次拍照
+		function getFaceImgBase64() {
+			//绘制canvas图形
+			canvas.getContext('2d').drawImage(video, 0, 0, 370, 500);
+			//把canvas图像转为img图片
+			var bdata = canvas.toDataURL("image/jpeg", 0.1);
+			//img.src = canvas.toDataURL("image/png");
+			return bdata; //照片压缩成base位数据
+		}
+
+		initVideo();
+		
+
+
+
+		// 人脸采集
+		function faceGather() {
+			const faceImgBase64 = getFaceImgBase64();
+			console.log(faceImgBase64);
+			var formData = new FormData();
+		}
+		
+		let url = window.location.href
+		let p = url.split('?')[1]
+		let userId = p.split('=')[1];
+		console.log(userId);
+		
+		var image = document.getElementById("receiver");
+		let ray = document.getElementById('ray')
+		let attitude = document.getElementById('attitude')
+		let i = 1, j = 1;
+
+		ray.onclick = function() {
+			if(ray.checked == true) {
+				j = 1
+			} else {
+				j = 0
+			}
+			if(socket != null) {
+				socket.close()
+				socket = null
+			}
+			if(time != null) {
+				clearTimeout(time)
+				time = null
+			}
+			socket = new WebSocket(`ws://10.3.41.200:8888/imageProcessing/${userId}/${i}/${j}`);
+			time = setTimeout(draw, 1000);
+			socket.onmessage = function(data) {
+				console.log("设置图片");
+				image.src = data.data;
+			};
+		}
+		
+		attitude.onclick = function() {
+			if(attitude.checked == true) {
+				i = 1
+			} else {
+				i = 0
+			}
+			if(socket != null) {
+				socket.close()
+				socket = null
+			}
+			if(time != null) {
+				clearTimeout(time)
+				time = null
+			}
+			socket = new WebSocket(`ws://10.3.41.200:8888/imageProcessing/${userId}/${i}/${j}`);
+			time = setTimeout(draw, 1000);
+			socket.onmessage = function(data) {
+				console.log("设置图片");
+				image.src = data.data;
+			};
+		}
+		
+		attitude.checked = true
+		ray.checked = true
+
+		// webscoket
+		let socket = new WebSocket(`ws://10.3.41.200:8888/imageProcessing/${userId}/${i}/${j}`);
+		var time = null;
+		socket.onopen = function() {
+			draw();
+			console.log("open success");
+		};
+
+		function draw() {
+			socket.send(getFaceImgBase64());
+			time = setTimeout(draw, 1000);
+		}
+
+		// 监听消息
+		socket.onmessage = function(data) {
+			console.log("设置图片");
+			image.src = data.data;
+		};
+
+		socket.onerror = function() {
+			console.log("连接异常");
+			// socket = new WebSocket("ws://10.3.41.200:8888/imageProcessing/2/1/1");
+			// socket.onopen = function() {
+			// 	if(time != null) {
+			// 		clearTimeout(time)
+			// 	}
+			// 	draw();
+			// 	console.log("open success");
+			// };
+			
+			// // 监听消息
+			// socket.onmessage = function(data) {
+			// 	console.log("设置图片");
+			// 	image.src = data.data;
+			// };
+		};
+
+		socket.onclose = function() {
+			console.log("断开连接");
+			// socket = new WebSocket("ws://10.3.41.200:8888/imageProcessing/2/1/1");
+			
+			// socket.onopen = function() {
+			// 	if(time != null) {
+			// 		clearTimeout(time)
+			// 	}
+			// 	draw();
+			// 	console.log("open success");
+			// };
+			
+			// // 监听消息
+			// socket.onmessage = function(data) {
+			// 	console.log("设置图片");
+			// 	image.src = data.data;
+			// };
+		};
+	</script>
+</html>
